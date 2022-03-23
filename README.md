@@ -1,1 +1,1 @@
-# setmore-api
+# Setmore API
