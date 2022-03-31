@@ -44,7 +44,6 @@ export abstract class Base {
   protected async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
     if (!this.tokenValid()) {
       await this.refreshToken();
-      console.log("moo");
     }
     const url = this.basePath + endpoint;
     const headers = {
