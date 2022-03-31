@@ -2,8 +2,8 @@ import { Customer } from "../customers/types";
 
 export type Appointment = {
   key: string;
-  start_time: string;
-  end_time: string;
+  start_time: string; //ISO-8601 format
+  end_time: string; //ISO-8601 format
   duration: number;
   staff_key: string;
   service_key: string;
@@ -33,8 +33,8 @@ export type AppointmentAttributes = {
   staff_key: string;
   service_key: string;
   customer_key: string;
-  start_time: string;
-  end_time: string;
+  start_time: string; //ISO-8601 format
+  end_time: string; //ISO-8601 format
   comment?: string;
   label?: string;
 };
