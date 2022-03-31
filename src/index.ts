@@ -2,6 +2,7 @@ import { Services } from "./services";
 import { Appointments } from "./appointments";
 import { Staff } from "./staff";
 import { Customers } from "./customers";
+import { Timeslots } from "./timeslots";
 import { applyMixins } from "./utils";
 import { Base } from "./base";
 
@@ -21,7 +22,7 @@ class SetmoreAPI extends Base {
     });
   }
 }
-interface SetmoreAPI extends Services, Appointments, Staff, Customers {}
-applyMixins(SetmoreAPI, [Services, Appointments, Staff, Customers]);
+interface SetmoreAPI extends Services, Appointments, Staff, Customers, Timeslots {}
+applyMixins(SetmoreAPI, [Services, Appointments, Staff, Customers, Timeslots]);
 
 export default SetmoreAPI;
