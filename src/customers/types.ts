@@ -14,3 +14,11 @@ export type Customer = {
   comment?: string;
   additional_fields?: any;
 };
+
+export type CustomerResponse = {
+  response: boolean;
+  msg: string;
+  data: {
+    customer: Customer;
+  };
+};
