@@ -1,10 +1,16 @@
-import { Base, Pages } from "../base";
+import { APIClient, Pages } from "../api-client";
 import { StaffResponse, StaffMember } from "./types";
 
-export class Staff extends Base {
+export class Staff {
+  private APIClient: APIClient;
+
+  constructor(APIClient: APIClient) {
+    this.APIClient = APIClient;
+  }
+
   async getStaffMembers(pages?: Pages): Promise<StaffMember[]> {
     try {
-      const response = await this.request<StaffResponse>("/bookingapi/staffs");
+      const response = await this.APIClient.request<StaffResponse>("/bookingapi/staffs");
       return response.data.staffs;
     } catch (error) {
       throw error;

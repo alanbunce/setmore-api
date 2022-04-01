@@ -11,27 +11,27 @@ export type Pages = {
   cursor: string;
 };
 
-export abstract class Base {
+export class APIClient {
   private apiKey: string;
   protected basePath: string;
   private token: string;
   private tokenRefresh: number;
 
-  protected constructor(config: Config) {
+  constructor(config: Config) {
     this.apiKey = config.apiKey;
     this.basePath = config.basePath;
     this.token = config.token;
     this.tokenRefresh = config.tokenRefresh;
   }
 
-  protected tokenValid(): boolean {
+  private tokenValid(): boolean {
     if (Date.now() <= this.tokenRefresh - 250) {
       return true;
     }
     return false;
   }
 
-  protected async refreshToken() {
+  private async refreshToken() {
     const time = Date.now();
     const response = await fetch("https://developer.setmore.com/api/v1/o/oauth2/token?refreshToken=" + this.apiKey, {
       method: "GET",
@@ -41,7 +41,7 @@ export abstract class Base {
     this.tokenRefresh = time + parseInt(jsonResponse.data.token.expires_in) * 1000;
   }
 
-  protected async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
     if (!this.tokenValid()) {
       await this.refreshToken();
     }
