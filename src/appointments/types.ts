@@ -14,7 +14,7 @@ export type Appointment = {
   label?: string;
 };
 
-export type Appointments = {
+export type AppointmentsData = {
   key: string;
   start_time: string;
   end_time: string;
@@ -52,6 +52,11 @@ export type AppointmentsResponse = {
   msg: string;
   data: {
     cursor?: string;
-    appointments: Appointments[];
+    appointments: AppointmentsData[];
   };
+};
+
+export type PagedAppointments = {
+  cursor?: string;
+  appointments: AppointmentsData[];
 };
