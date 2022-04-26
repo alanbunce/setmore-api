@@ -1,5 +1,6 @@
 import { APIClient } from "../api-client";
 import { Appointment, AppointmentAttributes, AppointmentResponse, AppointmentsResponse, AppointmentsData, PagedAppointments } from "./types";
+import { queryStringify } from "../utils/queryStringify";
 
 export class Appointments {
   private APIClient: APIClient;
@@ -10,10 +11,7 @@ export class Appointments {
   async createAppointment(attributes: AppointmentAttributes): Promise<Appointment> {
     try {
       const response = await this.APIClient.request<AppointmentResponse>("/bookingapi/appointment/create", { method: "POST", body: JSON.stringify(attributes) });
-      if (response.response && response.msg == "Appointment created successfully") {
-        return response.data.appointment;
-      }
-      return null;
+      return response.response ? response.data.appointment : null;
     } catch (error) {
       throw error;
     }
@@ -21,44 +19,43 @@ export class Appointments {
   async updateAppointmentLabel(appointmentKey: string, label: string): Promise<Appointment> {
     try {
       const response = await this.APIClient.request<AppointmentResponse>("/bookingapi/appointments/" + appointmentKey + "/label", { method: "POST", body: JSON.stringify({ label: label }) });
-      if (response.response) {
-        return response.data.appointment;
-      }
-      return null;
+      return response.response ? response.data.appointment : null;
     } catch (error) {
       throw error;
     }
   }
   async getAppointments(startDate: string, endDate: string, staff_key?: string, customerDetails?: boolean): Promise<AppointmentsData[]> {
-    var requestUrl = "/bookingapi/appointments?startDate=" + startDate + "&endDate=" + endDate;
-    if (staff_key) requestUrl += "&staff_key=" + staff_key;
-    if (customerDetails) requestUrl += "&customerDetails=" + customerDetails;
-    console.log(requestUrl);
+    const qs = queryStringify({
+      startDate: startDate,
+      endDate: endDate,
+      staff_key: staff_key,
+      customerDetails: customerDetails,
+    });
+    const requestUrl = "/bookingapi/appointments?" + qs;
     try {
       const response = await this.APIClient.request<AppointmentsResponse>(requestUrl, { method: "GET" });
-      if (response.response) {
-        console.log(response.data);
-        return response.data.appointments;
-      }
-      return null;
+      return response.response ? response.data.appointments : null;
     } catch (error) {
       throw error;
     }
   }
   async getPagedAppointments(startDate: string, endDate: string, cursor?: string, staff_key?: string, customerDetails?: boolean): Promise<PagedAppointments> {
-    var requestUrl = "/bookingapi/appointments?startDate=" + startDate + "&endDate=" + endDate;
-    if (cursor) requestUrl += "&cursor=" + cursor;
-    if (staff_key) requestUrl += "&staff_key=" + staff_key;
-    if (customerDetails) requestUrl += "&customerDetails=" + customerDetails;
+    const qs = queryStringify({
+      startDate: startDate,
+      endDate: endDate,
+      cursor: cursor,
+      staff_key: staff_key,
+      customerDetails: customerDetails,
+    });
+    const requestUrl = "/bookingapi/appointments?" + qs;
     try {
       const response = await this.APIClient.request<AppointmentsResponse>(requestUrl, { method: "GET" });
-      if (response.response) {
-        if (response.data.cursor) {
-          return { cursor: response.data.cursor, appointments: response.data.appointments };
-        }
-        return { cursor: null, appointments: response.data.appointments };
-      }
-      return null;
+      return response.response
+        ? {
+            cursor: response.data.cursor || null,
+            appointments: response.data.appointments,
+          }
+        : null;
     } catch (error) {
       throw error;
     }

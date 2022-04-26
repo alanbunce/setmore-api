@@ -1,7 +1,7 @@
 import { APIClient } from "../api-client";
 import { TimeslotsAttributes, TimeslotsResponse } from "./types";
 
-export class Timeslots{
+export class Timeslots {
   private APIClient: APIClient;
 
   constructor(APIClient: APIClient) {
