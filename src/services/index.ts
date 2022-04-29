@@ -10,7 +10,7 @@ export class Services {
   async getAllServices(): Promise<Service[]> {
     try {
       const response = await this.APIClient.request<ServicesResponse>("/bookingapi/services");
-      return response.data.services;
+      return response.response ? response.data.services : null;
     } catch (error) {
       throw error;
     }
@@ -18,7 +18,7 @@ export class Services {
   async getServiceCategories(): Promise<ServiceCategory[]> {
     try {
       const response = await this.APIClient.request<ServiceCategoryResponse>("/bookingapi/services/categories");
-      return response.data.service_categories;
+      return response.response ? response.data.service_categories : null;
     } catch (error) {
       throw error;
     }
@@ -26,10 +26,7 @@ export class Services {
   async getServicesByCategory(categoryKey: string): Promise<Service[]> {
     try {
       const response = await this.APIClient.request<ServicesResponse>("/bookingapi/services/categories/" + categoryKey);
-      if (response.response) {
-        return response.data.services;
-      }
-      return null;
+      return response.response ? response.data.services : null;
     } catch (error) {
       throw error;
     }

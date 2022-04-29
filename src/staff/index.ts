@@ -11,7 +11,7 @@ export class Staff {
   async getStaffMembers(pages?: Pages): Promise<StaffMember[]> {
     try {
       const response = await this.APIClient.request<StaffResponse>("/bookingapi/staffs");
-      return response.data.staffs;
+      return response.response ? response.data.staffs : null;
     } catch (error) {
       throw error;
     }

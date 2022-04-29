@@ -10,7 +10,7 @@ export class Customers {
   async createCustomer(customer: Customer): Promise<Customer> {
     try {
       const response = await this.APIClient.request<CustomerResponse>("/bookingapi/customer/create", { method: "POST", body: JSON.stringify(customer) });
-      return response.data.customer;
+      return response.response ? response.data.customer : null;
     } catch (error) {
       throw error;
     }

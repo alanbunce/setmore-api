@@ -4,14 +4,9 @@ import "dotenv/config";
 
 let setmoreClient = null;
 
-test.before(async (t) => {
-  if (process.env.API_KEY) {
-    const setmore = await SetmoreAPI.init(process.env.API_KEY);
-    setmoreClient = setmore;
-    t.is(typeof setmore, "object");
-  } else {
-    t.fail();
-  }
+test.before(async () => {
+  const setmore = await SetmoreAPI.init(process.env.API_KEY);
+  setmoreClient = setmore;
 });
 
 // Appointments

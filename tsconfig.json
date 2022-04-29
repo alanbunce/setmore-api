@@ -1,4 +1,12 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "esm": true,
+    "compilerOptions": {
+      "module": "ESNext"
+    }
+  },
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2020",
